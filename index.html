@@ -27,6 +27,11 @@
       height: auto;
       border-radius: 10px;
       margin-bottom: 20px;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    img.show {
+      opacity: 1;
     }
     button {
       padding: 10px 15px;
@@ -54,11 +59,11 @@
 </head>
 <body>
   <header>
-    <h1>Welcome to the Random Image Sharing Site</h1>
+    <h1>مرحبا بكم في صفحة تحميل صور عشوائية</h1>
   </header>
 
   <main>
-    <img id="randomImage" src="https://picsum.photos/800/600?random=1" alt="Random Image">
+    <img id="randomImage" src="https://picsum.photos/800/600?random=1" alt="Random Image" class="show">
     <br>
     <button id="loadImage">Load New Image</button>
   </main>
@@ -76,7 +81,15 @@
   <script>
     function loadRandomImage() {
       const imgElement = document.getElementById("randomImage");
-      imgElement.src = https;//picsum.photos/800/600?random=${Math.floor(Math.random() * 1000)};
+      const newImg = new Image();
+      newImg.src = `https://picsum.photos/800/600?random=${Math.floor(Math.random() * 1000)}`;
+      newImg.onload = function() {
+        imgElement.classList.remove("show"); // إخفاء الصورة الحالية
+        setTimeout(() => {
+          imgElement.src = newImg.src; // تغيير الصورة
+          imgElement.classList.add("show"); // إظهار الصورة مع تأثير
+        }, 200);
+      };
     }
 
     document.getElementById("loadImage").onclick = loadRandomImage;
